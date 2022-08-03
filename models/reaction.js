@@ -3,7 +3,7 @@ const {
     Types
 } = require('mongoose');
 const moment = require('moment');
-models/index.js
+
 const reactionSchema = new Schema({
 
     reactionId: {

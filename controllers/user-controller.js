@@ -75,7 +75,10 @@ const userController = {
           });
           return;
         }
-        return dbUserData;
+        res.status(200).json({ 
+            message: "Your user is deleted."
+        })
+        return dbUserData; 
       })
       .then((dbUserData) => {
         User.updateMany(
@@ -148,8 +151,8 @@ const userController = {
 
   //delete friend
   removefromFriendList({ params }, res) {
-    User.findOneAndDelete({
-      _id: params.thoghtId,
+    User.findOneAndUpdate(
+      {_id: params.userId,
     })
       .then((deletedFriend) => {
         if (!deletedFriend) {

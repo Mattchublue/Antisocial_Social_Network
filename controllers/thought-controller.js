@@ -4,7 +4,7 @@ const {
 } = require('../models');
 const thoughtController = {
 
-    //get thoughts
+    //Gets all thoughts
     getAllThoughts(req, res) {
         Thought.find({})
             .then(dbThoughtData => res.json(dbThoughtData))
@@ -14,7 +14,7 @@ const thoughtController = {
             });
     },
 
-    //get a thought by the ID
+    //Gets a thought by ID
     getThoughtById({
         params
     }, res) {
@@ -25,7 +25,7 @@ const thoughtController = {
             .then(dbThoughtData => {
                 if (!dbThoughtData) {
                     res.status(404).json({
-                        message: 'No thought found with id.'
+                        message: 'There are not any thoughts on file for this ID.'
                     });
                     return;
                 }
@@ -37,7 +37,7 @@ const thoughtController = {
             });
     },
 
-    //creates new thought
+    // Adds a new thought
     addThought(req, res) {
         Thought.create(req.body)
           .then((dbThoughtData) => {
@@ -48,7 +48,7 @@ const thoughtController = {
             );
           })
           .then((dbUserData) => {
-            res.json({ message: 'Thought successfully created!' });
+            res.json({ message: 'You have added a new thought.  Thought created successfully!' });
           })
           .catch((err) => {
             console.log(err);
@@ -56,7 +56,7 @@ const thoughtController = {
           });
       },
 
-    //update thought by id
+    //Update a thought by ID
     updateThought({
         params,
         body
@@ -72,7 +72,7 @@ const thoughtController = {
             .then(updateThought => {
                 if (!updateThought) {
                     return res.status(404).json({
-                        message: 'No thought with this id!'
+                        message: 'There is not a thought on file with this ID'
                     });
                 }
                 return res.json({
@@ -92,14 +92,14 @@ const thoughtController = {
             .then(deletedThought => {
                 if (!deletedThought) {
                     return res.status(404).json({
-                        message: 'Thought Deleted!'
+                        message: 'The thought has been destroyed!'
                     });
                 }
             })
             .then(dbUserData => {
                 if (!dbUserData) {
                     res.status(404).json({
-                        message: 'Thought Deleted!'
+                        message: 'The thought has been destroyed!'
                     });
                     return;
                 }
@@ -108,7 +108,7 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
 
-    //create new reactions
+    //Adds new reactions
     addReaction({
         params,
         body
@@ -126,7 +126,7 @@ const thoughtController = {
             .then(updatedThought => {
                 if (!updatedThought) {
                     res.status(404).json({
-                        message: 'No reaction found with this id!'
+                        message: 'There is not a reaction on file with this ID'
                     });
                     return;
                 }
@@ -134,14 +134,13 @@ const thoughtController = {
             })
             .catch(err => res.json(err));
     },
-    // Remove a reaction
+    // Removes a reaction
     removeReaction({
         params
     }, res) {
         Thought.findOneAndUpdate({
                     _id: params.thoughtId
                 },
-                //allows to remove the reaction by id
                 {
                     $pull: {
                         reactions: {
@@ -155,7 +154,7 @@ const thoughtController = {
             .then((thought) => {
                 if (!thought) {
                     res.status(404).json({
-                        message: 'No reaction available with this id.'
+                        message: 'There is not a reaction on file with this ID'
                     });
                     return;
                 }
